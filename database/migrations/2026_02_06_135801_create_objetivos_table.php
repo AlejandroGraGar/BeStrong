@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('objetivos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')-> constrained();
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id')->references('id')->on('users')->cascadeOnDelete();            
             $table->string('nombre');
             $table->string('descripcion');
             $table->string('meta_peso');

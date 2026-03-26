@@ -54,7 +54,7 @@ Route::prefix('ejercicios')->group(function () {
     Route::delete('/eliminar/{id}', [EjercicioController::class, 'delete'])->name('ejercicios.delete');
     Route::get('/ver/{id}', [EjercicioController::class, 'show'])->name('ejercicios.show');
 });
-Route::get('/import-exercises', [ExerciseController::class, 'import']);
+Route::get('/import-exercises', [EjercicioController::class, 'import']);
 
 //Rutinas
 Route::prefix('rutinas')->group(function () {
@@ -64,4 +64,9 @@ Route::prefix('rutinas')->group(function () {
     Route::delete('/eliminar/{id}', [RutinaController::class, 'delete'])->name('rutinas.delete');
     Route::get('/ver/{id}', [RutinaController::class, 'show'])->name('rutinas.show');
 });
-Route::get('/import-exercises', [ExerciseController::class, 'import']);
+Route::get('/import-exercises', [EjercicioController::class, 'import']);
+
+
+// Datos de Usuario
+Route::match(['get', 'post'], '/datos-usuarios/create', [DatosUsuarioController::class, 'create'])->name('datos_usuarios.create');
+Route::match(['get', 'post'], '/datos-usuarios/{id}/edit', [DatosUsuarioController::class, 'update'])->name('datos_usuarios.edit');

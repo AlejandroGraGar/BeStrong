@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('entrenamientos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('usuario_id')->constrained();
-            $table->bigInteger('rutina_id')->constrained();
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('rutina_id');
+            $table->foreign('rutina_id')->references('id')->on('rutinas')->cascadeOnDelete();
             $table->date('fecha');
             $table->integer('duracion');
             $table->timestamps();

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Laravel + Blade Starter Kit
 
 ---
@@ -67,3 +68,7 @@ If you want to see examples of what design elements we have, you can [visit the 
 ## Licence
 
 Starter kit is open-sourced software licensed under the MIT license.
+=======
+# BeStrong
+Proyecto TFG
+>>>>>>> daf604ebb93f6b1bf39f8469c97afb1a227daa56

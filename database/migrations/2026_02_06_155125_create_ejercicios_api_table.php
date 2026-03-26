@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ejercicios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('musculo')->nullable();
-            $table->json('dificultad')->nullable();
+            $table->text('descripcion')->nullable();
+            $table->string('video_url')->nullable(); 
             $table->timestamps();
         });
     }

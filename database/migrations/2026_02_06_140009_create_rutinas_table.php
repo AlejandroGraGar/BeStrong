@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('rutinas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id')->references('id')->on('users')->cascadeOnDelete();        
             $table->string('nombre');
-            $table->string('descripcion');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }
