@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Rutina extends Model
 {
     protected $fillable = [
+        'usuario_id',
         'nombre',
         'descripcion'
     ];
+
 
     public function entrenamientos()
     {

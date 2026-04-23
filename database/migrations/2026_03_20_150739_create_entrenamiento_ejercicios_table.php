@@ -14,13 +14,10 @@ return new class extends Migration
         Schema::create('entrenamiento_ejercicios', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('entrenamiento_id');
-            $table->unsignedBigInteger('ejercicio_id');
             $table->foreign('entrenamiento_id')->references('id')->on('entrenamientos');
+            $table->unsignedBigInteger('ejercicio_id');
             $table->foreign('ejercicio_id')->references('id')->on('ejercicios');
-            $table->integer('series'); 
-            $table->integer('repeticiones');
-            $table->float('peso')->nullable();
-            $table->integer('descanso')->nullable();
+
             $table->timestamps();
                 
         });

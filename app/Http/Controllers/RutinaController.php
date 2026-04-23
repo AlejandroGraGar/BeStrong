@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rutina;
+use Illuminate\Support\Facades\Auth;
+
 
 class RutinaController extends Controller
 {
@@ -20,18 +22,28 @@ class RutinaController extends Controller
     }
 
     public function create(Request $request)
-    {
-        if ($request->isMethod('post')) {
-            $rutina = new Rutina();
-            $rutina->nombre = $request->nombre;
-            $rutina->descripcion = $request->descripcion;
-            $rutina->save();
+{
+    if ($request->isMethod('post')) {
 
-            return redirect()->route('rutinas.index')->with('success', 'Rutina creada correctamente');
-        }
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        $rutina = Rutina::create([
+        'usuario_id' => Auth::id(),
+        'nombre' => $request->nombre,
+        'descripcion' => $request->descripcion,
+        ]);
+
+        return redirect()->route('ejercicioRutina.create', $rutina->id)
+            ->with('success', 'Rutina creada correctamente');
+
+            }
 
         return view('rutinas.create');
     }
+
 
     public function update(Request $request, $id)
     {

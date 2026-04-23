@@ -5,12 +5,11 @@
 @section('content')
 <h1>Lista de Entrenamientos</h1>
 
-<a href="{{ route('entrenamientos.create') }}" class="btn btn-primary">Crear Entrenamiento</a>
+<a href="{{ route('entrenamientosEjercicio.create') }}" class="btn btn-primary">Crear Entrenamiento</a>
 
 <table class="table table-striped mt-3">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Usuario</th>
             <th>Rutina</th>
             <th>Fecha</th>
@@ -21,7 +20,6 @@
     <tbody>
         @foreach($entrenamientos as $entrenamiento)
             <tr>
-                <td>{{ $entrenamiento->id }}</td>
                 <td>{{ $entrenamiento->usuario->nombre ?? 'N/A' }}</td>
                 <td>{{ $entrenamiento->rutina->nombre ?? 'N/A' }}</td>
                 <td>{{ $entrenamiento->fecha }}</td>

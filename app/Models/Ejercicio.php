@@ -9,7 +9,7 @@ class Ejercicio extends Model
      protected $fillable = [
         'nombre',
         'descripcion',
-        'video',
+        'video_url',
         'series',
         'repeticiones',
         'descanso'
@@ -25,8 +25,4 @@ class Ejercicio extends Model
         return $this->belongsToMany(Musculo::class);
     }
 
-    public function equipamientos()
-    {
-        return $this->belongsToMany(Equipamiento::class);
-    }
 }

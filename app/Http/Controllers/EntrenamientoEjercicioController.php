@@ -2,64 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\entrenamiento_ejercicio;
+use App\Models\EntrenamientoEjercicio;
 use Illuminate\Http\Request;
 
 class EntrenamientoEjercicioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(EntrenamientoEjercicio::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'entrenamiento_id' => 'required|exists:entrenamientos,id',
+            'ejercicio_id'     => 'required|exists:ejercicios,id',
+            'series'           => 'required|integer',
+            'repeticiones'     => 'required|integer',
+            'peso'             => 'nullable|numeric',
+            'descanso'         => 'nullable|integer',
+        ]);
+
+        $registro = EntrenamientoEjercicio::create($validated);
+
+        return response()->json([
+            'message' => 'Ejercicio añadido al entrenamiento',
+            'data' => $registro
+        ], 210);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(entrenamiento_ejercicio $entrenamiento_ejercicio)
+    public function show($id)
     {
-        //
+        $registro = EntrenamientoEjercicio::findOrFail($id);
+        return response()->json($registro);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(entrenamiento_ejercicio $entrenamiento_ejercicio)
+    public function update(Request $request, $id)
     {
-        //
+        $registro = EntrenamientoEjercicio::findOrFail($id);
+
+        $validated = $request->validate([
+            'series'       => 'integer',
+            'repeticiones' => 'integer',
+            'peso'         => 'nullable|numeric',
+            'descanso'     => 'nullable|integer',
+        ]);
+
+        $registro->update($validated);
+
+        return response()->json([
+            'message' => 'Registro actualizado correctamente',
+            'data' => $registro
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, entrenamiento_ejercicio $entrenamiento_ejercicio)
+    public function destroy($id)
     {
-        //
-    }
+        $registro = EntrenamientoEjercicio::findOrFail($id);
+        $registro->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(entrenamiento_ejercicio $entrenamiento_ejercicio)
-    {
-        //
+        return response()->json([
+            'message' => 'Ejercicio eliminado del entrenamiento'
+        ]);
     }
 }

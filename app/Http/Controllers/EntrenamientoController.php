@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Entrenamiento;
-use App\Models\Usuario;
+use App\Models\Ejercicio;
+use App\Models\DatosUsuario;
 use App\Models\Rutina;
+use App\Models\User;
 
 class EntrenamientoController extends Controller
 {
 
     public function index()
     {
-        $entrenamientos = Entrenamiento::with(['usuario', 'rutina'])->orderBy('fecha', 'desc')->get();
-        return view('entrenamientos.index', compact('entrenamientos'));
+        $entrenamientos = Entrenamiento::where('usuario_id', auth()->id())->orderBy('fecha', 'desc')->get();
+
+        return view('index', compact('entrenamientos'));
+
     }
 
     public function show($id)
@@ -26,41 +30,41 @@ class EntrenamientoController extends Controller
     {
         if ($request->isMethod('post')) {
             $entrenamiento = new Entrenamiento();
-            $entrenamiento->usuario_id = $request->usuario_id;
+            $entrenamiento->usuario_id = auth()->id(); 
             $entrenamiento->rutina_id = $request->rutina_id;
             $entrenamiento->fecha = $request->fecha;
             $entrenamiento->duracion = $request->duracion;
             $entrenamiento->save();
 
-            return redirect()->route('entrenamientos.index')->with('success', 'Entrenamiento creado correctamente');
+            return redirect()->route('entrenamientos.index');
         }
 
-        $usuarios = Usuario::all();
-        $rutinas = Rutina::all();
-        return view('entrenamientos.create', compact('usuarios', 'rutinas'));
+    $ejercicios = Ejercicio::all();
+
+
+        return view('entrenamientoEjercicio.create', compact('ejercicios'));
     }
+
 
     public function update(Request $request, $id)
     {
         $entrenamiento = Entrenamiento::findOrFail($id);
 
         if ($request->isMethod('post')) {
-            $datosEntrenamiento = $request->validate([
-                'usuario_id' => 'required|exists:usuarios,id',
-                'rutina_id' => 'required|exists:rutinas,id',
-                'fecha' => 'required|date',
-                'duracion' => 'required|integer|min:1',
-            ]);
-
-            $entrenamiento->update($datosEntrenamiento);
+            $entrenamiento->usuario_id = auth()->id();
+            $entrenamiento->rutina_id = $request->rutina_id;
+            $entrenamiento->fecha = $request->fecha;
+            $entrenamiento->duracion = $request->duracion;
+            $entrenamiento->save();
 
             return redirect()->route('entrenamientos.index')->with('success', 'Entrenamiento actualizado correctamente');
         }
 
-        $usuarios = Usuario::all();
-        $rutinas = Rutina::all();
-        return view('entrenamientos.edit', compact('entrenamiento', 'usuarios', 'rutinas'));
+        $ejercicios = Ejercicio::all();
+
+        return view('entrenamientoEjercicio.edit', compact('entrenamiento', 'ejercicios'));
     }
+
 
      public function delete($id)
     {

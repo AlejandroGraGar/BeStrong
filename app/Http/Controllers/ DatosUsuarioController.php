@@ -10,7 +10,6 @@ class DatosUsuarioController extends Controller
 {
     public function index()
     {
-        // Obtenemos los datos con la relación del usuario de la tabla 'users'
         $datosUsuarios = DatosUsuario::with('user')->get();
         return view('datos_usuarios.index', compact('datosUsuarios'));
     }
