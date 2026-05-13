@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ejercicio;
 use App\Models\EntrenamientoEjercicio;
+use App\Models\Entrenamiento;
 use Illuminate\Http\Request;
 
 class EntrenamientoEjercicioController extends Controller
@@ -11,25 +13,56 @@ class EntrenamientoEjercicioController extends Controller
     {
         return response()->json(EntrenamientoEjercicio::all());
     }
-
-    public function store(Request $request)
+ 
+    public function create(Request $request)
     {
-        $validated = $request->validate([
-            'entrenamiento_id' => 'required|exists:entrenamientos,id',
-            'ejercicio_id'     => 'required|exists:ejercicios,id',
-            'series'           => 'required|integer',
-            'repeticiones'     => 'required|integer',
-            'peso'             => 'nullable|numeric',
-            'descanso'         => 'nullable|integer',
-        ]);
+        if ($request->isMethod('post')) {
 
-        $registro = EntrenamientoEjercicio::create($validated);
+            $validated = $request->validate([
+                'entrenamiento_id' => 'nullable|exists:entrenamientos,id',
+            ]);
 
-        return response()->json([
-            'message' => 'Ejercicio añadido al entrenamiento',
-            'data' => $registro
-        ], 210);
+            if (!$validated['entrenamiento_id']) {
+                $entrenamiento = Entrenamiento::create([
+                    'usuario_id' => auth()->id(),
+                    'fecha' => now(),
+                    'duracion' => 0,
+                ]);
+
+                $validated['entrenamiento_id'] = $entrenamiento->id;
+            }
+
+            foreach ($request->ejercicios as $ejercicio) {
+
+                if (!isset($ejercicio['series']) || !is_array($ejercicio['series'])) {
+                    continue;
+                }
+
+                foreach ($ejercicio['series'] as $i => $serie) {
+
+                    EntrenamientoEjercicio::create([
+                        'entrenamiento_id' => $validated['entrenamiento_id'],
+                        'ejercicio_id' => $ejercicio['id'],
+                        'series' => $serie,
+                        'repeticiones' => $serie,
+                        'peso' => $ejercicio['peso'][$i] ?? null,
+                    ]);
+                }
+            }
+
+
+            return redirect()->route('home')
+                ->with('success', 'Ejercicio añadido al entrenamiento');
+        }
+
+        $entrenamiento_id = $request->entrenamiento_id;
+        $ejercicios = Ejercicio::all();
+
+        return view('entrenamientoEjercicio.create', compact('ejercicios', 'entrenamiento_id'));
     }
+
+
+
 
     public function show($id)
     {

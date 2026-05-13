@@ -10,20 +10,46 @@ class EjercicioSeeder extends Seeder
 {
     public function run(): void
     {
-        $response = Http::get('https://wger.de/api/v2/exercise-translation/?language=4');
+        set_time_limit(0);
 
-        if ($response->successful()) {
+        $images = [];
+        $urlImages = 'https://wger.de/api/v2/exerciseimage/';
+
+        while ($urlImages) {
+            $response = Http::get($urlImages);
+            if (!$response->successful()) break;
+
             $data = $response->json();
-            $exercises = $data['results']; 
+            foreach ($data['results'] as $img) {
+                if ($img['is_main']) {
+                    $images[$img['exercise']] = $img['image'];
+                }
+            }
+            $urlImages = $data['next'];
+        }
 
-            foreach ($exercises as $item) {
-                Ejercicio::create(
+        $urlExercises = 'https://wger.de/api/v2/exercise-translation/';
+
+        while ($urlExercises) {
+            $response = Http::get($urlExercises);
+            if (!$response->successful()) break;
+
+            $data = $response->json();
+            foreach ($data['results'] as $item) {
+                if ($item['language'] == 4) {
+                $exerciseId = $item['exercise'];
+                $imagen = $images[$exerciseId] ?? null;
+
+                Ejercicio::updateOrCreate(
                     ['nombre' => $item['name']],
-                    ['descripcion' => $item['description'] ?? ''],
-                    [   'video_url'   => null], 
-                    
+                    [
+                        'descripcion' => $item['description'] ?? null,
+                        'imagen'      => $imagen,
+                    ]
                 );
             }
+            }
+            $urlExercises = $data['next'];
         }
     }
 }

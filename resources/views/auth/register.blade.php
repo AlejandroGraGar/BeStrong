@@ -13,7 +13,7 @@
                 @csrf
                 <!-- Full Name Input -->
                 <div class="mb-4">
-                    <x-forms.input label="Full Name" name="name" type="text" placeholder="{{ __('Full Name') }}" />
+                    <x-forms.input label="User" name="name" type="text" placeholder="{{ __('User') }}" />
                 </div>
 
                 <!-- Email Input -->

@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreign('entrenamiento_id')->references('id')->on('entrenamientos');
             $table->unsignedBigInteger('ejercicio_id');
             $table->foreign('ejercicio_id')->references('id')->on('ejercicios');
-
+            $table->integer('series');
+            $table->integer('repeticiones');
+            $table->float('peso')->nullable();
             $table->timestamps();
                 
         });

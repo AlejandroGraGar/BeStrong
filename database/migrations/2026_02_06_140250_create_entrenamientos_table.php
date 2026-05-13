@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->unsignedBigInteger('rutina_id');
-            $table->foreign('rutina_id')->references('id')->on('rutinas')->cascadeOnDelete();
+            $table->foreignId('rutina_id')->nullable()->constrained()->nullOnDelete();
             $table->date('fecha');
             $table->integer('duracion');
             $table->timestamps();

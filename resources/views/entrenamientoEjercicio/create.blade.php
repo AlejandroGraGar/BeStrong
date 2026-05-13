@@ -49,14 +49,15 @@ body {
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold">Entreno</h5>
         <div class="timer-box">
-            ⏱ <span id="timer">00:00</span>
+            <span id="timer">00:00</span>
         </div>
     </div>
 
-    <form action="{{ route('entrenamientos.create') }}" method="POST">
+    <form action="{{ route('entrenamientosEjercicio.create') }}" method="POST">
         @csrf
 
         <input type="hidden" name="duracion" id="duracionInput">
+        <input type="hidden" name="entrenamiento_id" value="{{ $entrenamiento_id }}">
 
         <div id="ejerciciosContainer"></div>
 

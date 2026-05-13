@@ -20,9 +20,14 @@ class Ejercicio extends Model
         return $this->belongsToMany(Rutina::class)->withPivot('orden')->withTimestamps();
     }
 
-    public function musculos()
+    
+    public function entrenamientos()
     {
-        return $this->belongsToMany(Musculo::class);
+        return $this->belongsToMany(Entrenamiento::class, 'ejercicio_entrenamiento')
+            ->withPivot('series', 'repeticiones', 'peso')
+            ->withTimestamps();
     }
+
+
 
 }

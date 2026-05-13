@@ -17,12 +17,10 @@ return new class extends Migration
             $table->foreign('rutina_id')->references('id')->on('rutinas')->cascadeOnDelete();           
             $table->unsignedBigInteger('ejercicio_id');
             $table->foreign('ejercicio_id')->references('id')->on('ejercicios')->cascadeOnDelete();     
-            $table->integer('series')->default(3);
-            $table->integer('repeticiones')->default(10);
+            $table->integer('series');
+            $table->integer('repeticiones');
             $table->decimal('peso', 6, 2)->nullable();
-            $table->integer('orden')->default(0);
             $table->text('notas')->nullable();
-            
             $table->timestamps();
         });
     }

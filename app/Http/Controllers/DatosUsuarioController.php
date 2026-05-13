@@ -1,30 +1,31 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use App\Models\DatosUsuario; // Asegúrate de tener este modelo creado
+use App\Models\DatosUsuario; 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DatosUsuarioController extends Controller
 {
     public function index()
     {
-        $datosUsuarios = DatosUsuario::with('user')->get();
-        return view('datos_usuarios.index', compact('datosUsuarios'));
-    }
-
-    public function show($id)
-    {
-        $datosUsuario = DatosUsuario::with('user')->findOrFail($id);
-        return view('datos_usuarios.show', compact('datosUsuario'));
+        $datosUsuario = DatosUsuario::where('user_id', Auth::id())->first();
+        return view('datos_usuarios.index', compact('datosUsuario'));
     }
 
     public function create(Request $request)
     {
+        $datosUsuario = DatosUsuario::where('user_id', Auth::id())->first();
+
+        if ($datosUsuario) {
+            return redirect()->route('datos_usuarios.index');
+        }
+
         if ($request->isMethod('post')) {
-            $datos = $request->validate([
-                'user_id' => 'required|exists:users,id',
+
+            $validados = $request->validate([
+                'user_id' => 'exists:users,id',
                 'nombre' => 'required|string|max:255',
                 'apellido' => 'required|string|max:255',
                 'sexo' => 'required|string',
@@ -32,22 +33,14 @@ class DatosUsuarioController extends Controller
                 'altura' => 'required|string',
                 'peso' => 'required|string',
             ]);
+            $validados['user_id'] = Auth::id();
 
-            $datosUsuario = new DatosUsuario();
-            $datosUsuario->user_id = $request->user_id;
-            $datosUsuario->nombre = $request->nombre;
-            $datosUsuario->apellido = $request->apellido;
-            $datosUsuario->sexo = $request->sexo;
-            $datosUsuario->fecha_nacimiento = $request->fecha_nacimiento;
-            $datosUsuario->altura = $request->altura;
-            $datosUsuario->peso = $request->peso;
-            $datosUsuario->save();
+            DatosUsuario::create($validados);
 
-            return redirect()->route('datos_usuarios.index')->with('success', 'Datos de usuario creados correctamente');
+            return redirect()->route('datos_usuarios.index')->with('success', 'Datos actualizados correctamente');
         }
-
-        $users = User::all();
-        return view('datos_usuarios.create', compact('users'));
+    
+        return view('datos_usuarios.create');
     }
 
     public function update(Request $request, $id)
@@ -74,11 +67,5 @@ class DatosUsuarioController extends Controller
         return view('datos_usuarios.edit', compact('datosUsuario', 'users'));
     }
 
-    public function delete($id)
-    {
-        $datosUsuario = DatosUsuario::findOrFail($id);
-        $datosUsuario->delete();
 
-        return redirect()->route('datos_usuarios.index')->with('success', 'Datos eliminados correctamente');
-    }
 }

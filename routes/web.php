@@ -10,13 +10,8 @@ use App\Http\Controllers\EntrenamientoEjercicioController;
 use App\Http\Controllers\RutinaController;
 use App\Models\Entrenamiento;
 
-Route::get('/', [EntrenamientoController::class, 'index'])
-    ->name('home')
-    ->middleware('auth');
+Route::get('/', [EntrenamientoController::class, 'index'])->name('home')->middleware('auth');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', [Settings\ProfileController::class, 'edit'])->name('settings.profile.edit');
@@ -35,14 +30,8 @@ Route::match(['get','post'], '/entrenamientos/crear', [EntrenamientoController::
 Route::match(['get','post'], '/entrenamientos/editar/{id}', [EntrenamientoController::class, 'update'])->name('entrenamientos.update');
 Route::delete('/entrenamientos/eliminar/{id}', [EntrenamientoController::class, 'delete'])->name('entrenamientos.delete');
 Route::get('/entrenamientos/ver/{id}', [EntrenamientoController::class, 'show'])->name('entrenamientos.show');
-
-
-// Musculos
-Route::get('/musculos', [MusculoController::class, 'index'])->name('musculos.index');
-Route::match(['get','post'], '/musculos/crear', [MusculoController::class, 'create'])->name('musculos.create');
-Route::match(['get','post'], '/musculos/editar/{id}', [MusculoController::class, 'update'])->name('musculos.update');
-Route::delete('/musculos/eliminar/{id}', [MusculoController::class, 'delete'])->name('musculos.delete');
-Route::get('/musculos/ver/{id}', [MusculoController::class, 'show'])->name('musculos.show');
+Route::post('/entrenamientos/start/{rutina}', [EntrenamientoController::class, 'startRutina'])->name('entrenamientos.start.rutina');
+Route::put('/entrenamientos/{entrenamiento}/progreso', [EntrenamientoController::class, 'progreso'])->name('entrenamientos.progreso');
 
 
 // Ejercicios
@@ -70,4 +59,23 @@ Route::get('/entrenamientosEjercicio/ver/{id}', [EntrenamientoEjercicioControlle
 //ejercicioRutina
 Route::match(['get','post'], '/ejercicioRutina/{rutina}/crear', [EjercicioRutinaController::class, 'create'])->name('ejercicioRutina.create');
 Route::delete('/ejercicioRutina/{rutina}/eliminar/{ejercicio}', [EjercicioRutinaController::class, 'delete'])->name('ejercicioRutina.delete');
-Route::match(['get', 'put'], '/rutinas/{rutina}/edit-ejercicios', [EjercicioRutinaController::class, 'edit'])->name('ejercicioRutina.update');
+Route::match(['get', 'put'], '/rutinas/{rutina}/edit-ejercicios', [EjercicioRutinaController::class, 'update'])->name('ejercicioRutina.update');
+
+//Datos Usuario
+use App\Http\Controllers\DatosUsuarioController;
+
+Route::match(['get','post'], '/perfil', [DatosUsuarioController::class, 'create'])->name('datos_usuario.create');
+Route::get('/datos-usuarios', [DatosUsuarioController::class, 'index'])->name('datos_usuarios.index');
+Route::get('/datos-usuarios/{id}', [DatosUsuarioController::class, 'update'])->name('datos_usuarios.update');
+
+//Premium
+Route::get('/premium', function () {
+    return view('premium.index');
+})->name('premium');
+Route::get('/premium/pago', function () {
+    return view('premium.pago');
+})->name('premium.pago');
+
+
+Route::view('/politica-privacidad', 'privacidad')
+    ->name('privacidad');

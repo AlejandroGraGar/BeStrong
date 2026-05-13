@@ -9,6 +9,7 @@ class DatosUsuario extends Model
     protected $table = 'datos_usuarios';
 
     protected $fillable = [
+        'user_id',
         'nombre',
         'apellido',
         'sexo',
@@ -30,5 +31,10 @@ class DatosUsuario extends Model
     public function entrenamientos()
     {
         return $this->hasMany(Entrenamiento::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

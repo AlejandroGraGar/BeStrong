@@ -10,7 +10,9 @@ class EjercicioController extends Controller
     
     public function index()
     {
-        //
+        $ejercicios = Ejercicio::all();
+        $total_ejercicios = $ejercicios->count();
+        return view('ejercicios.index', compact('ejercicios', 'total_ejercicios'));
     }
 
     

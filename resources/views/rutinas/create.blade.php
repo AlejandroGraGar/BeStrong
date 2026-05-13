@@ -8,7 +8,7 @@
     <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
 
         <div class="bg-red-500 px-8 py-6">
-            <h1 class="text-2xl font-black text-white">Crear Rutina</h1>
+            <h1 class="text-2xl font-black text-grey-600">Crear Rutina</h1>
             <p class="text-red-100 text-sm mt-1">Configura tu rutina</p>
         </div>
 
@@ -25,12 +25,10 @@
                 <textarea name="descripcion" class="w-full px-4 py-3 border rounded-xl"></textarea>
             </div>
 
-            
-
             <button class="w-full bg-red-500 text-grey-600 py-3 rounded-xl font-bold">
                 Crear Rutina
             </button>
-
+            
         </form>
 
     </div>

@@ -32,7 +32,6 @@ class EjercicioRutinaController extends Controller
                         'series' => $data['series'] ?? 3,
                         'repeticiones' => $data['repeticiones'] ?? 10,
                         'peso' => $data['peso'] ?? null,
-                        'orden' => $data['orden'] ?? 0,
                         'notas' => $data['notas'] ?? null,
                     ]);
                 }
@@ -41,49 +40,40 @@ class EjercicioRutinaController extends Controller
             return redirect()->route('rutinas.index', $rutina);
         }
 
-        $ejerciciosDisponibles = Ejercicio::whereNotIn(
-            'id',
-            $rutina->ejercicios->pluck('id')
-        )->get();
+        $ejerciciosDisponibles = Ejercicio::whereNotIn('id',$rutina->ejercicios->pluck('id'))->get();
 
         return view('ejercicio_rutina.create', compact('rutina', 'ejerciciosDisponibles'));
     }
 
 
-    public function edit(Request $request, Rutina $rutina)
+    public function update(Request $request, Rutina $rutina)
     {
         if ($request->isMethod('put')) {
 
             $enviados = collect($request->ejercicios ?? []);
-
-            $idsEnviados = $enviados->keys()->map(fn ($id) => (int) $id)->toArray();
-
-            $rutina->ejercicios()
-                ->wherePivotNotIn('ejercicio_id', $idsEnviados)
-                ->detach();
+            $syncData = [];
 
             foreach ($enviados as $ejercicioId => $data) {
-
-                $rutina->ejercicios()->syncWithoutDetaching([
-                    $ejercicioId => [
+                if (isset($data['selected'])) {
+                    $syncData[$ejercicioId] = [
                         'series' => $data['series'] ?? 3,
                         'repeticiones' => $data['repeticiones'] ?? 10,
                         'peso' => $data['peso'] ?? null,
-                        'orden' => $data['orden'] ?? 0,
                         'notas' => $data['notas'] ?? null,
-                    ]
-                ]);
+                    ];
+                }
             }
 
-            return redirect()
-                ->route('rutinas.show', $rutina)
+            $rutina->ejercicios()->sync($syncData);
+
+            return redirect()->route('rutinas.index', $rutina)
                 ->with('success', 'Rutina actualizada correctamente');
         }
 
-        $ejerciciosDisponibles = \App\Models\Ejercicio::all();
-        $ejerciciosActuales = $rutina->ejercicios;
+        $rutina->load('ejercicios');
+        $ejercicios = Ejercicio::all();
 
-        return view('ejercicio_rutina.edit', compact('rutina', 'ejerciciosDisponibles', 'ejerciciosActuales'));
+        return view('ejercicio_rutina.edit', compact('rutina', 'ejercicios'));
     }
 
 

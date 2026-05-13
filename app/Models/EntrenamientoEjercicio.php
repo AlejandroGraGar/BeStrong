@@ -29,4 +29,9 @@ class EntrenamientoEjercicio extends Model
     {
         return $this->belongsTo(Ejercicio::class);
     }
+
+    public function series()
+    {
+        return $this->hasMany(Serie::class);
+    }
 }
