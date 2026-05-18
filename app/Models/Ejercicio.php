@@ -19,8 +19,7 @@ class Ejercicio extends Model
     {
         return $this->belongsToMany(Rutina::class)->withPivot('orden')->withTimestamps();
     }
-
-    
+ 
     public function entrenamientos()
     {
         return $this->belongsToMany(Entrenamiento::class, 'ejercicio_entrenamiento')
@@ -28,6 +27,10 @@ class Ejercicio extends Model
             ->withTimestamps();
     }
 
+    public function series()
+{
+    return $this->hasMany(Serie::class);
+}
 
 
 }

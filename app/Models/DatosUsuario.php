@@ -15,7 +15,8 @@ class DatosUsuario extends Model
         'sexo',
         'fecha_nacimiento',
         'altura',
-        'peso'
+        'peso',
+        'imagen'
     ];
 
     protected $hidden = [

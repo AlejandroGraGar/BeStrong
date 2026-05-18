@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use App\Models\DatosUsuario; 
-use App\Models\User;
+use App\Models\DatosUsuario;
 use Illuminate\Support\Facades\Auth;
 
 class DatosUsuarioController extends Controller
@@ -25,21 +25,28 @@ class DatosUsuarioController extends Controller
         if ($request->isMethod('post')) {
 
             $validados = $request->validate([
-                'user_id' => 'exists:users,id',
                 'nombre' => 'required|string|max:255',
                 'apellido' => 'required|string|max:255',
                 'sexo' => 'required|string',
                 'fecha_nacimiento' => 'required|date',
                 'altura' => 'required|string',
                 'peso' => 'required|string',
+                'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             ]);
+
             $validados['user_id'] = Auth::id();
+
+            if ($request->hasFile('imagen')) {
+                $validados['imagen'] = $request->file('imagen')->store('usuarios', 'public');
+            }
 
             DatosUsuario::create($validados);
 
-            return redirect()->route('datos_usuarios.index')->with('success', 'Datos actualizados correctamente');
+            return redirect()
+                ->route('datos_usuarios.index')
+                ->with('success', 'Datos creados correctamente');
         }
-    
+
         return view('datos_usuarios.create');
     }
 
@@ -47,25 +54,38 @@ class DatosUsuarioController extends Controller
     {
         $datosUsuario = DatosUsuario::findOrFail($id);
 
-        if ($request->isMethod('post')) {
-            $validados = $request->validate([
-                'user_id' => 'required|exists:users,id',
+        if ($request->isMethod('put')) {
+
+            $request->validate([
                 'nombre' => 'required|string|max:255',
                 'apellido' => 'required|string|max:255',
-                'sexo' => 'required|string',
-                'fecha_nacimiento' => 'required|date',
-                'altura' => 'required|string',
-                'peso' => 'required|string',
+                'sexo' => 'required|in:Masculino,Femenino,Otro',
+                'fecha_nacimiento' => 'nullable|date',
+                'altura' => 'nullable|numeric',
+                'peso' => 'nullable|numeric',
+                'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             ]);
 
-            $datosUsuario->update($validados);
+            $data = [
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'sexo' => $request->sexo,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'altura' => $request->altura,
+                'peso' => $request->peso,
+            ];
 
-            return redirect()->route('datos_usuarios.index')->with('success', 'Datos actualizados correctamente');
+            if ($request->hasFile('imagen')) {
+                $data['imagen'] = $request->file('imagen')->store('usuarios', 'public');
+            }
+
+            $datosUsuario->update($data);
+
+            return redirect()
+                ->route('datos_usuarios.index')
+                ->with('success', 'Perfil actualizado correctamente');
         }
 
-        $users = User::all();
-        return view('datos_usuarios.edit', compact('datosUsuario', 'users'));
+        return view('datos_usuarios.edit', compact('datosUsuario'));
     }
-
-
 }

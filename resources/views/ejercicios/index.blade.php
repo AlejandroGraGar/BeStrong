@@ -112,7 +112,15 @@
 
 <div class="container-tabla">
     <h1>Lista de Ejercicios</h1>
-
+    
+    <div class="flex justify-center mb-8">
+        <input
+            type="text"
+            id="buscadorEjercicios"
+            placeholder="Buscar ejercicio..."
+            class="w-full max-w-md px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+        >
+    </div>
     <table id="tablaEjercicios">
         <caption>Ejercicios disponibles en la base de datos: {{ $total_ejercicios }}</caption>
         <thead>
@@ -120,6 +128,7 @@
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Imagen</th>
+                <th>Detalles</th>
             </tr>
         </thead>
         <tbody>
@@ -140,6 +149,11 @@
                             <div class="no-img">Sin Imagen</div>
                         @endif
                     </td>
+                    <td>
+                        <a href="{{ route('ejercicios.show', $ejercicio->id) }}" class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300">
+                            Ver Detalles
+                        </a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
@@ -151,5 +165,33 @@
         </div>
     @endif
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
+    const buscador = document.getElementById('buscadorEjercicios');
+    const filas = document.querySelectorAll('#tablaEjercicios tbody tr');
+
+    buscador.addEventListener('keyup', function () {
+
+        const valor = this.value.toLowerCase();
+
+        filas.forEach(fila => {
+
+            const nombre = fila
+                .querySelector('.ejercicio-nombre')
+                .textContent
+                .toLowerCase();
+
+            if (nombre.includes(valor)) {
+                fila.style.display = '';
+            } else {
+                fila.style.display = 'none';
+            }
+
+        });
+
+    });
+
+});
+</script>
 @endsection

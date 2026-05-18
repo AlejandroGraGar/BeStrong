@@ -18,15 +18,10 @@ class Entrenamiento extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function ejercicios()
+    public function series()
     {
-        return $this->belongsToMany(Ejercicio::class,'entrenamiento_ejercicios','entrenamiento_id','ejercicio_id')
-        ->withPivot('series','repeticiones','peso')
-        ->withTimestamps();
+        return $this->hasMany(Serie::class);
     }
-
-
-
 
     public function rutina()
     {

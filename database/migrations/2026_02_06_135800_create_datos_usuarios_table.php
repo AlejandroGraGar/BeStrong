@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->string('imagen')->nullable();
             $table->string('nombre');
             $table->string('apellido');
             $table->string('sexo');
             $table->date('fecha_nacimiento');
             $table->string('altura');
             $table->string('peso');
+            $table->boolean('premium')->default(false);
             $table->timestamps();
         });
     }

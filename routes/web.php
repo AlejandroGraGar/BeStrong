@@ -30,8 +30,7 @@ Route::match(['get','post'], '/entrenamientos/crear', [EntrenamientoController::
 Route::match(['get','post'], '/entrenamientos/editar/{id}', [EntrenamientoController::class, 'update'])->name('entrenamientos.update');
 Route::delete('/entrenamientos/eliminar/{id}', [EntrenamientoController::class, 'delete'])->name('entrenamientos.delete');
 Route::get('/entrenamientos/ver/{id}', [EntrenamientoController::class, 'show'])->name('entrenamientos.show');
-Route::post('/entrenamientos/start/{rutina}', [EntrenamientoController::class, 'startRutina'])->name('entrenamientos.start.rutina');
-Route::put('/entrenamientos/{entrenamiento}/progreso', [EntrenamientoController::class, 'progreso'])->name('entrenamientos.progreso');
+Route::match(['get', 'post'], '/entrenamientos/start/{rutina}', [EntrenamientoController::class, 'startRutina'])->name('entrenamientos.start.rutina');
 
 
 // Ejercicios
@@ -40,7 +39,7 @@ Route::match(['get','post'], '/ejercicios/crear', [EjercicioController::class, '
 Route::match(['get','post'], '/ejercicios/editar/{id}', [EjercicioController::class, 'update'])->name('ejercicios.update');
 Route::delete('/ejercicios/eliminar/{id}', [EjercicioController::class, 'delete'])->name('ejercicios.delete');
 Route::get('/ejercicios/ver/{id}', [EjercicioController::class, 'show'])->name('ejercicios.show');
-
+Route::match(['get', 'post'], '/ejercicios/show/{id}', [EjercicioController::class, 'show'])->name('ejercicios.show');
 
 // Rutinas
 Route::get('/rutinas', [RutinaController::class, 'index'])->name('rutinas.index');
@@ -49,12 +48,6 @@ Route::match(['get','post'], '/rutinas/editar/{id}', [RutinaController::class, '
 Route::delete('/rutinas/eliminar/{id}', [RutinaController::class, 'delete'])->name('rutinas.destroy');
 Route::get('/rutinas/ver/{id}', [RutinaController::class, 'show'])->name('rutinas.show');
 
-//entrenamientoEjercicio
-Route::get('/entrenamientosEjercicio', [EntrenamientoEjercicioController::class, 'index'])->name('entrenamientosEjercicio.index');
-Route::match(['get','post'], '/entrenamientosEjercicio/crear', [EntrenamientoEjercicioController::class, 'create'])->name('entrenamientosEjercicio.create');
-Route::match(['get','post'], '/entrenamientosEjercicio/editar/{id}', [EntrenamientoEjercicioController::class, 'update'])->name('entrenamientosEjercicio.update');
-Route::delete('/entrenamientosEjercicio/eliminar/{id}', [EntrenamientoEjercicioController::class, 'delete'])->name('entrenamientosEjercicio.delete');
-Route::get('/entrenamientosEjercicio/ver/{id}', [EntrenamientoEjercicioController::class, 'show'])->name('entrenamientosEjercicio.show');
 
 //ejercicioRutina
 Route::match(['get','post'], '/ejercicioRutina/{rutina}/crear', [EjercicioRutinaController::class, 'create'])->name('ejercicioRutina.create');
@@ -66,7 +59,7 @@ use App\Http\Controllers\DatosUsuarioController;
 
 Route::match(['get','post'], '/perfil', [DatosUsuarioController::class, 'create'])->name('datos_usuario.create');
 Route::get('/datos-usuarios', [DatosUsuarioController::class, 'index'])->name('datos_usuarios.index');
-Route::get('/datos-usuarios/{id}', [DatosUsuarioController::class, 'update'])->name('datos_usuarios.update');
+Route::match(['get', 'post', 'put'], '/datos-usuarios/{id}', [DatosUsuarioController::class, 'update'])->name('datos_usuarios.update');
 
 //Premium
 Route::get('/premium', function () {

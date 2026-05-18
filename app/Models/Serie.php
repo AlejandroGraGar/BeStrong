@@ -9,38 +9,22 @@ class Serie extends Model
     protected $table = 'series';
 
     protected $fillable = [
-        'entrenamiento_ejercicio_id',
-        'repeticiones',
+        'entrenamiento_id',
+        'ejercicio_id',
+        'numero',
         'peso',
-        'completada',
+        'repeticiones',
     ];
 
-    public function entrenamientoEjercicio()
-    {
-        return $this->belongsTo(EntrenamientoEjercicio::class);
-    }
+
 
     public function entrenamiento()
     {
-        return $this->hasOneThrough(
-            Entrenamiento::class,
-            EntrenamientoEjercicio::class,
-            'id',
-            'id',
-            'entrenamiento_ejercicio_id',
-            'entrenamiento_id'
-        );
+        return $this->belongsTo(Entrenamiento::class);
     }
 
     public function ejercicio()
     {
-        return $this->hasOneThrough(
-            Ejercicio::class,
-            EntrenamientoEjercicio::class,
-            'id',
-            'id',
-            'entrenamiento_ejercicio_id',
-            'ejercicio_id'
-        );
+        return $this->belongsTo(Ejercicio::class);
     }
 }

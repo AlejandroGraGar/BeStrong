@@ -6,21 +6,20 @@
 
     <div class="mb-8">
         <h1 class="text-3xl font-black text-red-600">
-            Entrenamiento de {{ $entrenamiento->rutina->nombre }}
+            Entrenamiento de {{ $rutina->nombre }}        
         </h1>
         <p class="text-gray-500 text-sm mt-1">
             Registra tus repeticiones y pesos por serie
         </p>
     </div>
 
-    <form action="{{ route('entrenamientos.progreso', $entrenamiento->id) }}" method="POST">
+    <form action="{{ route('entrenamientos.start.rutina', $rutina) }}" method="POST">
         @csrf
-        @method('PUT')
+        @method('POST')
 
         <div class="flex flex-col gap-12">
 
-            @foreach($entrenamiento->ejercicios as $ejercicio)
-
+            @foreach($rutina->ejercicios as $ejercicio)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-8 py-6 hover:shadow-md transition">
 
                     <div class="flex items-center justify-between mb-4">

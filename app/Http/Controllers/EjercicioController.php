@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Ejercicio;
 use Illuminate\Http\Request;
+use App\Models\Serie;
 
 class EjercicioController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        $ejercicios = Ejercicio::all();
-        $total_ejercicios = $ejercicios->count();
-        return view('ejercicios.index', compact('ejercicios', 'total_ejercicios'));
-    }
+        $query = Ejercicio::query();
+        
+        if ($request->filled('search')) {
+            $query->where('nombre', 'like', '%' . $request->search . '%');
+        }
 
+        $ejercicios = $query->paginate(20);
+
+        $total_ejercicios = Ejercicio::count();
+
+        return view('ejercicios.index', compact('ejercicios', 'total_ejercicios'));        
+    }
     
     public function create()
     {
@@ -30,7 +38,22 @@ class EjercicioController extends Controller
     
     public function show(Ejercicio $ejercicio)
     {
-        //
+        $progreso = Serie::where('ejercicio_id', $ejercicio->id)->whereHas('entrenamiento', function ($q) {
+                $q->where('usuario_id', auth()->id());
+            })->with('entrenamiento')->get()->groupBy(function ($serie) {
+                return $serie->entrenamiento->fecha;
+            })->map(function ($series) {
+                return $series->max('peso');
+            });
+
+        $labels = $progreso->keys();
+        $data = $progreso->values();
+
+        return view('ejercicios.show', compact(
+            'ejercicio',
+            'labels',
+            'data'
+        ));
     }
 
     

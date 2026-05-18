@@ -41,7 +41,19 @@ class RutinaController extends Controller
                 ->with('success', 'Rutina creada correctamente');
 
         }
+             $datosUsuario = DatosUsuario::where('user_id', auth()->id())->first();
+            $totalRutinas = Rutina::where('usuario_id', auth()->id())->count();
 
+        if (!$datosUsuario || $datosUsuario->premium == 0) {
+            if ($totalRutinas >= 3) {
+                return redirect()->route('rutinas.index')->with('error','Has alcanzado el límite de rutinas. Elimina una rutina existente para crear una nueva.');
+            }
+        }
+        if ($datosUsuario && $datosUsuario->premium == 1) {
+            if ($totalRutinas >= 5) {
+                return redirect()->route('rutinas.index')->with('error','Has alcanzado el límite de rutinas. Elimina una rutina existente para crear una nueva.');
+            }
+        }
             return view('rutinas.create');
         }
 
