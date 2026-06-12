@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Entrenamiento extends Model
-{
+{   
+    
+    protected $table = 'entrenamientos';
+
      protected $fillable = [
         'usuario_id',
         'rutina_id',

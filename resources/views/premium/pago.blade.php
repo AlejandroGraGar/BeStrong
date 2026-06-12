@@ -50,7 +50,7 @@
 
             </div>
 
-            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-black py-5 rounded-2xl text-lg">
+            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-gray-600PUA font-black py-5 rounded-2xl text-lg">
                 Pagar 4,99€
             </button>
 

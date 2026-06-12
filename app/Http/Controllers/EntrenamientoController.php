@@ -14,23 +14,23 @@ class EntrenamientoController extends Controller
 {
 
     public function index()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    $datosUsuario = $user->datosUsuario;
+        $datosUsuario = $user->datosUsuario;
 
-    $query = Entrenamiento::where('usuario_id', $user->id)->with('rutina')->orderBy('created_at', 'desc');
+        $query = Entrenamiento::where('usuario_id', $user->id)->with('rutina')->orderBy('created_at', 'desc');
 
-    if (!$datosUsuario->premium) {
-        $query->take(10);
+        if (!optional($datosUsuario)->premium) {        
+            $query->take(10);
+        }
+
+        $entrenamientos = $query->get();
+
+        $totalEntrenamientos = Entrenamiento::where('usuario_id', $user->id)->count();
+
+        return view('index', compact('entrenamientos', 'totalEntrenamientos'));
     }
-
-    $entrenamientos = $query->get();
-
-    $totalEntrenamientos = Entrenamiento::where('usuario_id', $user->id)->count();
-
-    return view('index', compact('entrenamientos', 'totalEntrenamientos'));
-}
 
     public function show($id)
     {
@@ -46,7 +46,7 @@ class EntrenamientoController extends Controller
                 'usuario_id' => auth()->id(),
                 'rutina_id' => null,
                 'fecha' => now(),
-                'duracion' => 0,
+                'duracion' => $request->duracion ?? 0,
             ]);
 
             if ($request->has('ejercicios')) {

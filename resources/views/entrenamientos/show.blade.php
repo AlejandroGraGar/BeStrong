@@ -18,6 +18,10 @@
                 {{ $entrenamiento->fecha }}
             </p>
 
+            <p class="text-gray-400 mt-2">
+                Duración: {{ $entrenamiento->duracion }}
+            </p>
+
         </div>
 
         <div class="space-y-8">

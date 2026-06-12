@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('usuario_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('rutina_id')->nullable()->constrained()->nullOnDelete();
             $table->date('fecha');
-            $table->integer('duracion');
+            $table->time('duracion')->nullable()->change();
             $table->timestamps();
         });
     }

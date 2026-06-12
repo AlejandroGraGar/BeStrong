@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MusculoController;
 use App\Http\Controllers\EntrenamientoController;
 use App\Http\Controllers\EjercicioController;
 use App\Http\Controllers\EjercicioRutinaController;
 use App\Http\Controllers\EntrenamientoEjercicioController;
 use App\Http\Controllers\RutinaController;
 use App\Models\Entrenamiento;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', [EntrenamientoController::class, 'index'])->name('home')->middleware('auth');
 
@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/password', [Settings\PasswordController::class, 'update'])->name('settings.password.update');
     Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
 });
+
 
 require __DIR__.'/auth.php';
 
@@ -38,7 +39,7 @@ Route::get('/ejercicios', [EjercicioController::class, 'index'])->name('ejercici
 Route::match(['get','post'], '/ejercicios/crear', [EjercicioController::class, 'create'])->name('ejercicios.create');
 Route::match(['get','post'], '/ejercicios/editar/{id}', [EjercicioController::class, 'update'])->name('ejercicios.update');
 Route::delete('/ejercicios/eliminar/{id}', [EjercicioController::class, 'delete'])->name('ejercicios.delete');
-Route::get('/ejercicios/ver/{id}', [EjercicioController::class, 'show'])->name('ejercicios.show');
+Route::get('/ejercicios/ver/{ejercicio}', [EjercicioController::class, 'show'])->name('ejercicios.show');
 Route::match(['get', 'post'], '/ejercicios/show/{id}', [EjercicioController::class, 'show'])->name('ejercicios.show');
 
 // Rutinas
@@ -72,3 +73,7 @@ Route::get('/premium/pago', function () {
 
 Route::view('/politica-privacidad', 'privacidad')
     ->name('privacidad');
+
+Route::post('/admin/publicidad', [AdminController::class, 'updateAd'])
+    ->middleware('auth')
+    ->name('admin.ad.update');

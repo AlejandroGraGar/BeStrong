@@ -8,7 +8,6 @@ use App\Models\Serie;
 
 class EjercicioController extends Controller
 {
-    
     public function index(Request $request)
     {
         $query = Ejercicio::query();
@@ -17,7 +16,7 @@ class EjercicioController extends Controller
             $query->where('nombre', 'like', '%' . $request->search . '%');
         }
 
-        $ejercicios = $query->paginate(20);
+        $ejercicios = $query->paginate(20)->withQueryString();
 
         $total_ejercicios = Ejercicio::count();
 
@@ -29,50 +28,39 @@ class EjercicioController extends Controller
         //
     }
 
-    
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         //
     }
 
-    
     public function show(Ejercicio $ejercicio)
     {
-        $progreso = Serie::where('ejercicio_id', $ejercicio->id)->whereHas('entrenamiento', function ($q) {
+        $series = Serie::where('ejercicio_id', $ejercicio->id)
+            ->whereHas('entrenamiento', function ($q) {
                 $q->where('usuario_id', auth()->id());
-            })->with('entrenamiento')->get()->groupBy(function ($serie) {
+            })
+            ->with('entrenamiento')
+            ->whereNotNull('peso')
+            ->get()
+            ->sortBy(function ($serie) {
                 return $serie->entrenamiento->fecha;
-            })->map(function ($series) {
-                return $series->max('peso');
             });
 
-        $labels = $progreso->keys();
-        $data = $progreso->values();
+        $labels = $series->map(function ($serie) {
+            return \Carbon\Carbon::parse($serie->entrenamiento->fecha)->format('d/m/Y')
+                . ' · Serie ' . $serie->numero;
+        })->values();
 
-        return view('ejercicios.show', compact(
-            'ejercicio',
-            'labels',
-            'data'
-        ));
+        $data = $series->map(function ($serie) {
+            return $serie->peso;
+        })->values();
+
+        return view('ejercicios.show', compact('ejercicio', 'labels', 'data'));
     }
 
-    
-    public function edit(Ejercicio $ejercicio)
-    {
-        //
-    }
+    public function edit(Ejercicio $ejercicio) {}
 
-    
-    public function update(Request $request, Ejercicio $ejercicio)
-    {
-        //
-    }
+    public function update(Request $request, Ejercicio $ejercicio) {}
 
-    
-    public function destroy(Ejercicio $ejercicio)
-    {
-        //
-    }
-        
-
+    public function destroy(Ejercicio $ejercicio) {}
 }

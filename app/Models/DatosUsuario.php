@@ -24,15 +24,7 @@ class DatosUsuario extends Model
     ];
 
 
-    public function objetivos()
-    {
-        return $this->hasMany(Objetivo::class);
-    }
 
-    public function entrenamientos()
-    {
-        return $this->hasMany(Entrenamiento::class);
-    }
 
     public function user()
     {

@@ -64,7 +64,7 @@
     }
 
     tbody td:first-child { border-radius: 12px 0 0 12px; }
-    tbody td:last-child { border-radius: 0 12px 12px 0; }
+    tbody td:last-child  { border-radius: 0 12px 12px 0; }
 
     td {
         padding: 20px;
@@ -111,18 +111,38 @@
 </style>
 
 <div class="container-tabla">
+
     <h1>Lista de Ejercicios</h1>
-    
+
     <div class="flex justify-center mb-8">
-        <input
-            type="text"
-            id="buscadorEjercicios"
-            placeholder="Buscar ejercicio..."
-            class="w-full max-w-md px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-        >
+        <form method="GET" action="{{ route('ejercicios.index') }}" class="w-full max-w-md flex gap-2">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Buscar ejercicio..."
+                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+            >
+            <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-xl font-semibold transition">
+                Buscar
+            </button>
+            @if(request('search'))
+                <a href="{{ route('ejercicios.index') }}"
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold transition">
+                    ✕
+                </a>
+            @endif
+        </form>
     </div>
+
     <table id="tablaEjercicios">
-        <caption>Ejercicios disponibles en la base de datos: {{ $total_ejercicios }}</caption>
+        <caption>
+            Ejercicios disponibles en la base de datos: {{ $total_ejercicios }}
+            @if(request('search'))
+                · Resultados para <strong>"{{ request('search') }}"</strong>
+            @endif
+        </caption>
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -132,7 +152,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($ejercicios as $ejercicio)
+            @forelse($ejercicios as $ejercicio)
                 <tr>
                     <td>
                         <span class="ejercicio-nombre">{{ $ejercicio->nombre }}</span>
@@ -144,54 +164,39 @@
                     </td>
                     <td>
                         @if($ejercicio->imagen)
-                            <img src="{{ $ejercicio->imagen }}" class="ejercicio-img" alt="{{ $ejercicio->nombre }}">
+                            <img src="{{ $ejercicio->imagen }}"
+                                 class="ejercicio-img"
+                                 alt="{{ $ejercicio->nombre }}">
                         @else
                             <div class="no-img">Sin Imagen</div>
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('ejercicios.show', $ejercicio->id) }}" class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300">
+                        <a href="{{ route('ejercicios.show', $ejercicio->id) }}"
+                           class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300">
                             Ver Detalles
                         </a>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="4" class="text-center py-10 text-gray-400">
+                        No se encontraron ejercicios
+                        @if(request('search'))
+                            para <strong>"{{ request('search') }}"</strong>
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
-    
-    @if(method_exists($ejercicios, 'links'))
-        <div class="pagination">
+
+    @if($ejercicios->hasPages())
+        <div class="flex justify-center mb-10">
             {{ $ejercicios->links() }}
         </div>
     @endif
+
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
 
-    const buscador = document.getElementById('buscadorEjercicios');
-    const filas = document.querySelectorAll('#tablaEjercicios tbody tr');
-
-    buscador.addEventListener('keyup', function () {
-
-        const valor = this.value.toLowerCase();
-
-        filas.forEach(fila => {
-
-            const nombre = fila
-                .querySelector('.ejercicio-nombre')
-                .textContent
-                .toLowerCase();
-
-            if (nombre.includes(valor)) {
-                fila.style.display = '';
-            } else {
-                fila.style.display = 'none';
-            }
-
-        });
-
-    });
-
-});
-</script>
 @endsection

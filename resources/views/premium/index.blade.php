@@ -58,6 +58,14 @@
                         ✔ Rutinas ilimitadas
                     </div>
 
+                    <div class="bg-gray-50 rounded-2xl p-4 font-semibold text-gray-700">
+                        ✔ Registro ilimitado de entrenamientos
+                    </div>
+
+                    <div class="bg-gray-50 rounded-2xl p-4 font-semibold text-gray-700">
+                        ✔ Sin anuncios
+                    </div>
+
                 </div>
 
                 <a
