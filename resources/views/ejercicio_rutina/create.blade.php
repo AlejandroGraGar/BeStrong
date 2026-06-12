@@ -6,7 +6,7 @@
 
 <div class="max-w-7xl mx-auto mt-10">
 
-    <form id="formEjercicios" method="POST" action="{{ route('ejercicio_rutina.create', $rutina) }}">
+    <form id="formEjercicios" method="POST" action="{{ route('ejercicioRutina.create', $rutina) }}">
         @csrf
         <div class="flex flex-col lg:flex-row gap-8 items-start">
             <div class="w-full lg:w-2/3">
@@ -18,7 +18,7 @@
                     </a>
 
                     <button type="submit"
-                            class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition">
+                            class="hover:bg-red-500 text-gray-600 font-bold py-3 px-6 rounded-2xl shadow-lg transition">
                         ✔ Guardar rutina
                     </button>
 
@@ -50,7 +50,7 @@
 
                     <button type="button"
                             onclick="abrirModal()"
-                            class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-2xl shadow-lg transition">
+                            class="w-full bg-red-500 hover:bg-red-500 text-white font-bold py-4 rounded-2xl shadow-lg transition">
                         + Añadir ejercicio
                     </button>
 
@@ -77,7 +77,7 @@
                         <p class="text-red-100 text-sm">Selecciona ejercicios para la rutina</p>
                     </div>
                     
-                    <button type="button" id="agregarEjerciciosBtn" class="mt-4 bg-gray-600 text-red-500 hover:bg-red-50 font-bold py-2 px-6 rounded-2xl transition">
+                    <button type="button" id="agregarEjerciciosBtn" class="mt-4 bg-gray-600 text-red-500 hover:bg-red-500font-bold py-2 px-6 rounded-2xl transition">
                             Añadir seleccionados
                         </button>
 
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <h2 class="text-base font-bold text-gray-800">${nombre}</h2>
                     <button type="button"
                             onclick="eliminarEjercicio(this)"
-                            class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-xl text-sm font-semibold transition">
+                            class="bg-red-500 hover:bg-red-500 text-red-600 px-3 py-1 rounded-xl text-sm font-semibold transition">
                         Eliminar
                     </button>
                 </div>

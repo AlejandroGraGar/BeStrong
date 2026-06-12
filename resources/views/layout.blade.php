@@ -91,24 +91,26 @@
 
     <div class="w-full max-w-7xl mx-auto flex gap-6 mt-6 px-4 sm:px-6 lg:px-8 flex-1">
 
-        <aside class="hidden lg:block w-72">
-            <div class="bg-white shadow-lg rounded-3xl p-4 sticky top-6">
-                <img src="{{ asset('storage/' . \App\Models\Setting::get('ad_image')) }}" alt="Publicidad" class="w-full h-48 rounded-2xl object-cover">                @auth
-                    @if(auth()->user()->is_admin)
-                        <form action="{{ route('admin.ad.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
-                            @csrf
-                            <input type="file" name="image" class="block mb-2 text-sm">
+        @if(!(auth()->check() && auth()->user()->datosUsuario && auth()->user()->datosUsuario->premium))
+            <aside class="hidden lg:block w-72">
+            <div class="bg-white shadow-lg rounded-3xl p-4 mt-6 sticky top-6">
+                <img src="{{ asset('storage/' . \App\Models\Setting::get('ad_image')) }}" alt="Publicidad" class="w-full h-48 rounded-2xl object-cover">
 
-                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-gray-600 px-4 py-2 rounded-lg w-full">
-                                Cambiar publicidad
-                            </button>
+                    @auth
+                        @if(auth()->user()->is_admin)
+                            <form action="{{ route('admin.ad.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+                                @csrf
+                                <input type="file" name="image" class="block mb-2 text-sm">
 
-                        </form>
-                    @endif
-                @endauth
-
-            </div>
-        </aside>
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-gray-600 px-4 py-2 rounded-lg w-full">
+                                    Cambiar publicidad
+                                </button>
+                            </form>
+                        @endif
+                    @endauth
+                </div>
+            </aside>
+        @endif
 
         <main class="flex-1">
             @yield('content')

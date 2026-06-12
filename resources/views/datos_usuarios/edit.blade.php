@@ -26,9 +26,7 @@
         </div>
     @endif
 
-    <form action="{{ route('datos_usuarios.update', $datosUsuario->id) }}"
-          method="POST"
-          enctype="multipart/form-data">
+    <form action="{{ route('datos_usuarios.update', $datosUsuario->id) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
         @method('PUT')
@@ -42,18 +40,13 @@
                 <div class="flex flex-col items-center mb-8">
 
                     <div class="rounded-full overflow-hidden border-4 border-red-400 shadow-lg" style="width: 100px; height: 100px; flex-shrink: 0;">
-                        <img id="previewImagen"
-                             src="{{ $datosUsuario->imagen ? asset('storage/' . $datosUsuario->imagen) : 'https://ui-avatars.com/api/?name=' . $datosUsuario->nombre }}"
+                        <img id="previewImagen" src="{{ $datosUsuario->imagen ? asset('storage/' . $datosUsuario->imagen) : 'https://ui-avatars.com/api/?name=' . $datosUsuario->nombre }}"
                              style="width: 100%; height: 100%; object-fit: cover; display: block;">
                     </div>
 
-                    <label class="mt-4 cursor-pointer bg-red-500 hover:bg-red-600 text-gray-600 font-bold px-4 py-2 rounded-xl shadow transition">
+                    <label class="mt-4 cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded-xl shadow transition">
                         Cambiar foto
-                        <input type="file"
-                               name="imagen"
-                               accept="image/*"
-                               class="hidden"
-                               onchange="previewImage(event)">
+                        <input type="file" name="imagen" accept="image/*" class="hidden" onchange="previewImage(event)">
                     </label>
 
                 </div>
@@ -62,16 +55,12 @@
 
                     <div class="bg-gray-50 rounded-2xl p-5">
                         <p class="text-xs text-gray-500 uppercase">Nombre</p>
-                        <input type="text" name="nombre"
-                               value="{{ old('nombre', $datosUsuario->nombre) }}"
-                               class="w-full text-lg font-bold text-gray-900 mt-1 bg-transparent outline-none">
+                        <input type="text" name="nombre" value="{{ old('nombre', $datosUsuario->nombre) }}" class="w-full text-lg font-bold text-gray-900 mt-1 bg-transparent outline-none">
                     </div>
 
                     <div class="bg-gray-50 rounded-2xl p-5">
                         <p class="text-xs text-gray-500 uppercase">Apellido</p>
-                        <input type="text" name="apellido"
-                               value="{{ old('apellido', $datosUsuario->apellido) }}"
-                               class="w-full text-lg font-bold text-gray-900 mt-1 bg-transparent outline-none">
+                        <input type="text" name="apellido" value="{{ old('apellido', $datosUsuario->apellido) }}" class="w-full text-lg font-bold text-gray-900 mt-1 bg-transparent outline-none">
                     </div>
 
                     <div class="bg-gray-50 rounded-2xl p-5">
@@ -119,7 +108,7 @@
 
                 <div class="mt-10">
                     <button type="submit"
-                            class="w-full bg-red-500 hover:bg-red-600 text-gray-600 font-bold py-4 rounded-2xl shadow-lg transition">
+                            class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-2xl shadow-lg transition">
                         Guardar cambios
                     </button>
                 </div>

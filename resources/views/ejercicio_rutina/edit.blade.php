@@ -15,7 +15,7 @@
                 <button form="formEjercicios"
                         type="submit"
                         class="bg-blue-500 hover:bg-blue-600 text-gray-600 font-bold py-3 px-6 rounded-2xl shadow-lg transition">
-                    ✏️ Actualizar
+                     Actualizar
                 </button>
             </div>
 

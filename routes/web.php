@@ -36,11 +36,12 @@ Route::match(['get', 'post'], '/entrenamientos/start/{rutina}', [EntrenamientoCo
 
 // Ejercicios
 Route::get('/ejercicios', [EjercicioController::class, 'index'])->name('ejercicios.index');
-Route::match(['get','post'], '/ejercicios/crear', [EjercicioController::class, 'create'])->name('ejercicios.create');
-Route::match(['get','post'], '/ejercicios/editar/{id}', [EjercicioController::class, 'update'])->name('ejercicios.update');
-Route::delete('/ejercicios/eliminar/{id}', [EjercicioController::class, 'delete'])->name('ejercicios.delete');
-Route::get('/ejercicios/ver/{ejercicio}', [EjercicioController::class, 'show'])->name('ejercicios.show');
-Route::match(['get', 'post'], '/ejercicios/show/{id}', [EjercicioController::class, 'show'])->name('ejercicios.show');
+Route::get('/ejercicios/crear', [EjercicioController::class, 'create'])->name('ejercicios.create');
+Route::post('/ejercicios', [EjercicioController::class, 'store'])->name('ejercicios.store');
+Route::get('/ejercicios/{ejercicio}', [EjercicioController::class, 'show'])->name('ejercicios.show');
+Route::get('/ejercicios/{ejercicio}/edit', [EjercicioController::class, 'edit'])->name('ejercicios.edit');
+Route::put('/ejercicios/{ejercicio}', [EjercicioController::class, 'update'])->name('ejercicios.update');
+Route::delete('/ejercicios/{ejercicio}', [EjercicioController::class, 'destroy'])->name('ejercicios.destroy');
 
 // Rutinas
 Route::get('/rutinas', [RutinaController::class, 'index'])->name('rutinas.index');

@@ -20,11 +20,9 @@ class EjercicioRutinaController extends Controller
     {
         if ($request->isMethod('post')) {
 
-            $request->validate([
-                'ejercicios' => 'nullable|array',
-            ]);
+            $ejercicios = $request->input('ejercicios', []);
 
-            foreach ($request->ejercicios as $id => $data) {
+            foreach ($ejercicios as $id => $data) {
 
                 if (isset($data['selected'])) {
 
@@ -37,10 +35,13 @@ class EjercicioRutinaController extends Controller
                 }
             }
 
-            return redirect()->route('rutinas.index', $rutina);
+            return redirect()->route('rutinas.index');
         }
 
-        $ejerciciosDisponibles = Ejercicio::whereNotIn('id',$rutina->ejercicios->pluck('id'))->get();
+        $ejerciciosDisponibles = Ejercicio::whereNotIn(
+            'id',
+            $rutina->ejercicios->pluck('id')
+        )->get();
 
         return view('ejercicio_rutina.create', compact('rutina', 'ejerciciosDisponibles'));
     }
