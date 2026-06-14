@@ -18,7 +18,11 @@
         @method('POST')
 
         <div class="flex flex-col gap-12">
-
+            
+<a href="{{ route('rutinas.index') }}"
+                   class="inline-flex items-center gap-2 text-gray-600 hover:text-red-500 font-medium">
+                    ← Cancelar
+                </a>
             @foreach($rutina->ejercicios as $ejercicio)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-8 py-6 hover:shadow-md transition">
 

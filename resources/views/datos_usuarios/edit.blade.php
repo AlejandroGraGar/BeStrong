@@ -5,7 +5,10 @@
 @section('content')
 
 <div class="max-w-3xl mx-auto mt-12 px-4">
-
+<a href="{{ route('datos_usuarios.index') }}"
+                   class="inline-flex items-center gap-2 text-gray-600 hover:text-red-500 font-medium">
+                    ← Volver
+                </a>
     <div class="text-center mb-12">
         <h1 class="text-5xl font-black text-red-600 tracking-tight">
             Mi Perfil

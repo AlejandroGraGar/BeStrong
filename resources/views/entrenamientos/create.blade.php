@@ -11,13 +11,13 @@
         <div class="w-full lg:w-2/3">
 
             <div class="mb-6 flex justify-between items-center">
-                <a href="{{ route('rutinas.index') }}"
+                <a href="{{ route('home') }}"
                    class="inline-flex items-center gap-2 text-gray-600 hover:text-red-500 font-medium">
                     ← Volver
                 </a>
                 <button form="formEntrenamiento"
                         type="submit"
-                        class="bg-green-500 hover:bg-green-600 text-gray-600 font-bold py-3 px-6 rounded-2xl shadow-lg transition">
+                        class="bg-gray-500 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition">
                     ✔ Guardar Entrenamiento
                 </button>
             </div>
@@ -39,7 +39,7 @@
 
                     <div class="bg-gray-50 rounded-2xl p-5 mb-6 text-center border border-gray-100">
                         <p class="text-gray-400 text-sm mb-1">Duración del entrenamiento</p>
-                        <div id="timer" class="text-4xl font-black text-green-500 tracking-wider">
+                        <div id="timer" class="text-4xl font-black text-gray-600 tracking-wider">
                             00:00:00
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 <p class="text-sm text-gray-500 mb-6">Selecciona ejercicios para tu entrenamiento</p>
                 <button type="button"
                         onclick="abrirModal()"
-                        class="w-full bg-red-500 hover:bg-red-600 text-gray-600 font-bold py-4 rounded-2xl shadow-lg transition">
+                        class="w-full bg-red-500 hover:bg-red-600 text-black font-bold py-4 rounded-2xl shadow-lg transition">
                     + Añadir ejercicio
                 </button>
             </div>

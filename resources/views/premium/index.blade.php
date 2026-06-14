@@ -5,9 +5,7 @@
 @section('content')
 
 <div class="max-w-6xl mx-auto px-6 py-12">
-
     <div class="bg-gradient-to-r from-red-600 to-red-500 rounded-3xl p-10 text-grey-600 shadow-2xl">
-
         <div class="max-w-3xl">
 
             <p class="uppercase tracking-[0.3em] text-red-100 font-bold mb-4">

@@ -4,7 +4,10 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto mt-10">
-
+<a href="{{ route('rutinas.index') }}"
+                   class="inline-flex items-center gap-2 text-gray-600 hover:text-red-500 font-medium">
+                    ← Volver
+                </a>
     <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
 
         <div class="bg-red-500 px-8 py-6">

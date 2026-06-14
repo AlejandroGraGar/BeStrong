@@ -16,19 +16,14 @@ class EntrenamientoController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         $datosUsuario = $user->datosUsuario;
-
         $query = Entrenamiento::where('usuario_id', $user->id)->with('rutina')->orderBy('created_at', 'desc');
 
         if (!optional($datosUsuario)->premium) {        
             $query->take(10);
         }
-
         $entrenamientos = $query->get();
-
         $totalEntrenamientos = Entrenamiento::where('usuario_id', $user->id)->count();
-
         return view('index', compact('entrenamientos', 'totalEntrenamientos'));
     }
 

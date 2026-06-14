@@ -7,7 +7,6 @@
 <div class="max-w-3xl mx-auto mt-12 px-4">
 
     <div class="text-center mb-12 relative">
-
         <div class="flex justify-center mb-8">
             <div class="rounded-full overflow-hidden border-4 border-red-500 shadow-xl" style="width: 100px; height: 100px; flex-shrink: 0;">
                 <img 

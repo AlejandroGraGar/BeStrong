@@ -50,7 +50,7 @@ class RutinaController extends Controller
             }
         }
         if ($datosUsuario && $datosUsuario->premium == 1) {
-            if ($totalRutinas >= 5) {
+            if ($totalRutinas >= 1000000) {
                 return redirect()->route('rutinas.index')->with('error','Has alcanzado el límite de rutinas. Elimina una rutina existente para crear una nueva.');
             }
         }

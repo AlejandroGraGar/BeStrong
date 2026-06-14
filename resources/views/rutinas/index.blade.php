@@ -71,18 +71,13 @@
                 <p class="text-gray-700 font-bold text-xl">No tienes rutinas creadas</p>
                 <p class="text-gray-400 mt-2">Crea tu primera rutina para comenzar</p>
                 
-                
-
-                
+             
             </div>
             @endforelse
-            
-                
-            
 
             <a href="{{ route('rutinas.create') }}" class="inline-block mt-6   text-gray-600 font-bold py-3 px-6 rounded-xl shadow-lg">
-                            Crear Rutina
-                        </a>
+                Crear Rutina
+            </a>
         </div>
 
 </div>

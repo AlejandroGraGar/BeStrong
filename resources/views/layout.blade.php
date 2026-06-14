@@ -81,6 +81,7 @@
             .rounded-2xl {
                 border-radius: 1rem !important;
             }
+            
         }
     </style>
 </head>
@@ -89,12 +90,12 @@
 
     @include('navbar')
 
-    <div class="w-full max-w-7xl mx-auto flex gap-6 mt-6 px-4 sm:px-6 lg:px-8 flex-1">
+    <div class="w-full flex flex-1 mt-6 px-4 sm:px-6">
 
         @if(!(auth()->check() && auth()->user()->datosUsuario && auth()->user()->datosUsuario->premium))
-            <aside class="hidden lg:block w-72">
-            <div class="bg-white shadow-lg rounded-3xl p-4 mt-6 sticky top-6">
-                <img src="{{ asset('storage/' . \App\Models\Setting::get('ad_image')) }}" alt="Publicidad" class="w-full h-48 rounded-2xl object-cover">
+            <aside class="hidden lg:block" style="width: 10%;">
+                <div class="sticky top-6" style="transform: translate(80px, 120px);">
+                    <img src="{{ asset('storage/' . \App\Models\Setting::get('ad_image')) }}" alt="Publicidad" class="w-full h-48Z rounded-2xl object-cover">
 
                     @auth
                         @if(auth()->user()->is_admin)
@@ -112,9 +113,10 @@
             </aside>
         @endif
 
-        <main class="flex-1">
+        <main class="flex-1 px-4">
             @yield('content')
         </main>
+
 
     </div>
 

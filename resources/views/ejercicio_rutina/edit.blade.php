@@ -14,13 +14,13 @@
                 </a>
                 <button form="formEjercicios"
                         type="submit"
-                        class="bg-blue-500 hover:bg-blue-600 text-gray-600 font-bold py-3 px-6 rounded-2xl shadow-lg transition">
-                     Actualizar
+                        class="bg-gray-500 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition">
+                     Guardar cambios
                 </button>
             </div>
 
             <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
-                <div class="bg-blue-500 px-8 py-6">
+                <div class="bg-gray-500 px-8 py-6">
                     <h1 class="text-2xl font-black text-gray-600">
                         Editar Ejercicios
                     </h1>
@@ -46,7 +46,7 @@
                                     </h2>
                                     <button type="button"
                                             onclick="eliminarEjercicio(this)"
-                                            class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-xl text-sm font-semibold transition">
+                                            class="bg-gray-100 hover:bg-gray-200 text-white px-3 py-1 rounded-xl text-sm font-semibold transition">
                                         Eliminar
                                     </button>
                                 </div>
@@ -84,15 +84,13 @@
 
         <div class="w-full lg:w-1/3 sticky top-10">
             <div class="bg-white rounded-3xl shadow-lg p-6">
-                <h2 class="text-2xl font-black text-gray-800 mb-2">
+                <h2 class="text-2xl font-black text-white-800 mb-2">
                     Añadir ejercicios
                 </h2>
                 <p class="text-sm text-gray-500 mb-6">
                     Agrega nuevos ejercicios a tu rutina
                 </p>
-                <button type="button"
-                        onclick="abrirModal()"
-                        class="w-full bg-red-500 hover:bg-red-600 text-gray-600 font-bold py-4 rounded-2xl shadow-lg transition">
+                <button type="button" onclick="abrirModal()" class="w-full bg-blue text-gray-600 font-bold py-4 rounded-2xl shadow-lg transition">
                     + Añadir ejercicio
                 </button>
             </div>
@@ -105,7 +103,7 @@
     <div class="absolute inset-0 overflow-y-auto">
         <div class="min-h-full flex items-start justify-center p-4 py-10">
             <div class="w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl animate-fadeIn">
-                <div class="bg-red-500 px-6 py-5 flex justify-between items-center rounded-t-[2rem]">
+                <div class="bg-gray-500 px-6 py-5 flex justify-between items-center rounded-t-[2rem]">
                     <div>
                         <h2 class="text-xl font-black text-gray-600">
                             Añadir ejercicios
@@ -148,7 +146,7 @@
 
                     <button type="button"
                             id="agregarEjerciciosBtn"
-                            class="w-full mt-5 bg-red-500 hover:bg-red-600 text-gray-600 font-bold py-3 rounded-2xl transition">
+                            class="w-full mt-5 bg-gray-500 hover:bg-gray-600 text-gray-600 font-bold py-3 rounded-2xl transition">
                         Añadir seleccionados
                     </button>
                 </div>
@@ -202,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </h2>
                     <button type="button"
                             onclick="eliminarEjercicio(this)"
-                            class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-xl text-sm font-semibold transition">
+                            class="bg-gray-100 hover:bg-gray-200 text-white px-3 py-1 rounded-xl text-sm font-semibold transition">
                         Eliminar
                     </button>
                 </div>
