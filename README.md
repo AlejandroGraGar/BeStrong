@@ -1,74 +1,82 @@
-<<<<<<< HEAD
-# Laravel + Blade Starter Kit
+# BeStrong
+
+Aplicación web para gestión y registro de entrenamientos, rutinas y ejercicios (Proyecto TFG).
 
 ---
 
-## Introduction
+## 🚀 Puesta en marcha rápida (Docker)
 
-Our Laravel 12 + Blade starter kit provides the typical functionality found in the Laravel Starter kits, but with a few key differences:
+No necesitas instalar PHP, Composer, Node ni servidores en tu equipo local. Todo se ejecuta aislado mediante contenedores Docker.
 
-- A CoreUI/AdminLTE inspired design layout
-- Blade + AlpineJS code
-
-This kit aims to fill the gap where there is no simple **Blade only** starter kit available.
-
-Our internal goal at Laravel Daily is to start using this starter kit for our Demo applications, to avoid overwhelming our audience with Vue/Livewire/React if we had used one of the official Laravel 12 starter kits.
-
-**Note:** This is Work in Progress kit, so it will get updates and fixes/features as we go.
-
----
-
-## Screenshots
-
-![](https://laraveldaily.com/uploads/2025/05/LoginPage.png)
-
-![](https://laraveldaily.com/uploads/2025/05/RegisterPage.png)
-
-![](https://laraveldaily.com/uploads/2025/05/DashboardPage.png)
-
-![](https://laraveldaily.com/uploads/2025/05/ProfilePage.png)
-
----
-
-## What is Inside?
-
-Inside you will find all the functions that you would expect:
-
-- Authentication
-    - Login
-    - Registration
-    - Password Reset Flow
-    - Email Confirmation Flow
-- Dashboard Page
-- Profile Settings
-    - Profile Information Page
-    - Password Update Page
-    - Appearance Preferences
-
----
-
-## How to use it?
-
-To use this kit, you can install it using:
+### 1. Clonar y arrancar por primera vez
 
 ```bash
-laravel new --using=laraveldaily/starter-kit
+git clone git@github.com:AlejandroGraGar/BeStrong.git
+cd BeStrong
+bash setup.sh
 ```
 
-From there, you can modify the kit to your needs.
+El script `setup.sh` se encarga de:
+- Construir las imágenes (`bestrong-app` y `bestrong-vite`).
+- Configurar permisos automáticamente con tu usuario local.
+- Crear el `.env` y la base de datos SQLite con sus migraciones.
+- Conectar el almacenamiento público para fotos y logos (`storage:link`).
+- Descargar e importar el catálogo de ejercicios inicial (>600 ejercicios).
+
+### 2. Acceso a la aplicación
+
+- **Web:** [http://localhost](http://localhost) (puerto 80)
+- **Vite (HMR):** [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## Design Elements
+## 🛠️ Comandos habituales
 
-If you want to see examples of what design elements we have, you can [visit the Wiki](<https://github.com/LaravelDaily/starter-kit/wiki/Design-Examples-(Raw-Files)>) and see the raw HTML files.
+Una vez creado el entorno, puedes controlarlo situándote en la carpeta `docker/`:
+
+```bash
+cd docker/
+
+# Arrancar en segundo plano
+docker compose up -d
+
+# Ver logs en tiempo real
+docker compose logs -f
+
+# Detener los contenedores
+docker compose down
+
+# Reconstruir imágenes si cambian paquetes en composer.json o package.json
+docker compose up --build -d
+
+# Consola interactiva de Laravel (Tinker)
+docker compose exec app php artisan tinker
+```
 
 ---
 
-## Licence
+## 🔄 Reinicio completo desde cero
 
-Starter kit is open-sourced software licensed under the MIT license.
-=======
-# BeStrong
-Proyecto TFG
->>>>>>> daf604ebb93f6b1bf39f8469c97afb1a227daa56
+Si deseas restablecer la base de datos, imágenes y volúmenes para volver a tener una instalación limpia desde cero:
+
+```bash
+bash setup.sh --reset
+```
+
+---
+
+## 📁 Estructura de la carpeta `docker/`
+
+Todo lo relacionado con Docker se encuentra apartado en su propio directorio para no mezclar configuraciones con el código fuente de la aplicación:
+
+```
+docker/
+├── Dockerfile.app       # Imagen PHP 8.2-FPM + Nginx + Supervisor
+├── Dockerfile.vite      # Imagen Node 22 para Vite (recarga en caliente de assets)
+├── docker-compose.yml   # Orquestación de servicios, redes y volúmenes
+├── entrypoint.sh        # Script de inicialización (detección de UID/GID y migraciones)
+└── conf/
+    ├── nginx.conf          # Configuración del servidor web Nginx
+    ├── php-fpm-pool.conf   # Pool de PHP-FPM configurado con el usuario del host
+    └── supervisord.conf    # Gestor de procesos interno
+```
