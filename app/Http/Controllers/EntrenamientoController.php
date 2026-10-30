@@ -41,7 +41,7 @@ class EntrenamientoController extends Controller
                 'usuario_id' => auth()->id(),
                 'rutina_id' => null,
                 'fecha' => now(),
-                'duracion' => $request->duracion ?? 0,
+                'duracion' => $request->duracion ?? '00:00:00',
             ]);
 
             if ($request->has('ejercicios')) {
@@ -81,7 +81,7 @@ class EntrenamientoController extends Controller
                 'usuario_id' => auth()->id(),
                 'rutina_id' => $rutina->id,
                 'fecha' => now(),
-                'duracion' => 0,
+                'duracion' => $request->duracion ?? '00:00:00',
             ]);
 
             if ($request->has('ejercicios')) {

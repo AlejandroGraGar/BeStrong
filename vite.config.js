@@ -10,4 +10,11 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    server: {
+        host: "0.0.0.0",      // Acepta conexiones desde fuera del contenedor Docker
+        port: 5173,
+        hmr: {
+            host: "localhost", // El navegador se conecta a localhost:5173
+        },
+    },
 });

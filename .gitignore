@@ -21,3 +21,19 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Docker
+docker/.env
+
+# Archivos PID de procesos (generados en runtime por Supervisor, PHP-FPM, etc.)
+*.pid
+
+# Logs de Laravel
+storage/logs/*.log
+
+# Archivos de caché generados en runtime (ya cubiertos por gitignore internos,
+# pero los listamos aquí para que sean visibles)
+bootstrap/cache/*.php
+storage/framework/cache/data/
+storage/framework/sessions/
+storage/framework/views/

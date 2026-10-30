@@ -17,12 +17,21 @@
         @csrf
         @method('POST')
 
-        <div class="flex flex-col gap-12">
+        <input type="hidden" name="duracion" id="duracionInput">
+
+        <div class="flex flex-col gap-8">
             
-<a href="{{ route('rutinas.index') }}"
+            <div class="flex justify-between items-center">
+                <a href="{{ route('rutinas.index') }}"
                    class="inline-flex items-center gap-2 text-gray-600 hover:text-red-500 font-medium">
                     ← Cancelar
                 </a>
+
+                <div class="bg-gray-50 border border-gray-100 rounded-2xl px-6 py-2 text-center shadow-sm">
+                    <span class="text-gray-400 text-xs uppercase tracking-wider block font-semibold">Duración</span>
+                    <span id="timer" class="text-2xl font-black text-gray-700 tracking-wider">00:00:00</span>
+                </div>
+            </div>
             @foreach($rutina->ejercicios as $ejercicio)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-8 py-6 hover:shadow-md transition">
 
@@ -78,5 +87,23 @@
     </form>
 
 </div>
+
+<script>
+let seconds = 0;
+const timer = document.getElementById('timer');
+const duracionInput = document.getElementById('duracionInput');
+
+function updateTimer() {
+    const hrs  = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const secs = String(seconds % 60).padStart(2, '0');
+    const tiempo = `${hrs}:${mins}:${secs}`;
+    timer.textContent = tiempo;
+    duracionInput.value = tiempo;
+}
+
+updateTimer();
+setInterval(() => { seconds++; updateTimer(); }, 1000);
+</script>
 
 @endsection
