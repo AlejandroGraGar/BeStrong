@@ -50,7 +50,7 @@ docker compose down
 docker compose up --build -d
 
 # Consola interactiva de Laravel (Tinker)
-docker compose exec app php artisan tinker
+./tinker.sh
 ```
 
 ---
