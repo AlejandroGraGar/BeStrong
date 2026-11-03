@@ -41,7 +41,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
 
 # Crear directorios que Laravel necesita.
-# El chown se hace en el entrypoint con el UID real del host (HOST_UID/HOST_GID).
+# El chown se gestiona dinámicamente en el entrypoint según el propietario del bind mount.
 RUN mkdir -p storage/logs \
              storage/framework/cache/data \
              storage/framework/sessions \

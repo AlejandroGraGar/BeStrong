@@ -24,6 +24,9 @@ yarn-error.log
 
 # Docker
 docker/.env
+docker/logs/**/*.log
+docker/logs/*.log
+!docker/logs/**/.gitkeep
 
 # Archivos PID de procesos (generados en runtime por Supervisor, PHP-FPM, etc.)
 *.pid

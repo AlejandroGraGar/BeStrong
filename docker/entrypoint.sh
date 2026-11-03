@@ -3,10 +3,10 @@ set -e
 
 echo "🚀 Preparando entorno BeStrong..."
 
-# Detectar el UID/GID del host leyendo el propietario de los ficheros del bind mount.
-# Así funciona en cualquier máquina sin necesidad de variables de entorno externas.
-UID_VAL=$(stat -c '%u' /var/www/html/artisan 2>/dev/null || echo "1000")
-GID_VAL=$(stat -c '%g' /var/www/html/artisan 2>/dev/null || echo "1000")
+# Detectar el UID/GID del host leyendo el propietario de los ficheros del bind mount,
+# o utilizar las variables de entorno HOST_UID/HOST_GID si fueron provistas explícitamente.
+UID_VAL="${HOST_UID:-$(stat -c '%u' /var/www/html/artisan 2>/dev/null || echo "1000")}"
+GID_VAL="${HOST_GID:-$(stat -c '%g' /var/www/html/artisan 2>/dev/null || echo "1000")}"
 
 # Crear .env si no existe aún y asegurar pertenencia al usuario del host
 if [ ! -f .env ]; then
@@ -44,9 +44,16 @@ mkdir -p storage/logs \
 sed -i "s/^user = .*/user = ${UID_VAL}/"  /usr/local/etc/php-fpm.d/www.conf
 sed -i "s/^group = .*/group = ${GID_VAL}/" /usr/local/etc/php-fpm.d/www.conf
 
-# Fijar ownership de los volúmenes nombrados (storage, bootstrap/cache, vendor)
-# al usuario del host. Estos son volúmenes Docker, no ficheros del host → seguro.
-chown -R "${UID_VAL}:${GID_VAL}" storage bootstrap/cache vendor
+# Fijar ownership de los volúmenes mutables de Laravel (storage y bootstrap/cache)
+# y de los directorios de logs montados al host.
+mkdir -p /var/log/nginx /var/log/supervisor
+chown -R "${UID_VAL}:${GID_VAL}" /var/log/nginx /var/log/supervisor 2>/dev/null || true
+
+for dir in storage bootstrap/cache; do
+    if [ -d "$dir" ]; then
+        chown -R "${UID_VAL}:${GID_VAL}" "$dir"
+    fi
+done
 
 echo "🗄️  Ejecutando migraciones..."
 php artisan migrate --force
